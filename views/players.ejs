@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/players.css" />
+  </head>
+  <body>
+    <h1>THIS IS TWO PLAYERS GAME</h1>
+    <h2>you guys are helping the engine to learn adding your inteligence to it</h2>
+
+    <div class="selection">
+        <% if(result=="choice"){%>
+        <h2>choice :- </h2>
+        <form action="/choose" method="post">
+            <button type="submit" name="choice" value="1">X</button>
+            <button type="submit" name="choice" value="0">O</button>
+        </form>
+        <% } %>
+        <% if(result=="reload"){%>
+            <form action="/reload" method="post">
+                <button type="submit" name="choice" value="1">RELOAD</button>
+            </form>
+        <% } %>
+        <% if(result!="choice" && result!="reload"){%>
+            <h2><%=result%></h2>
+            <form action="/restart" method="post">
+                <button type="submit" name="choice" value="1">RESTART</button>
+            </form>
+            <% } %>
+    </div>
+
+    <% if(result=="reload"||result=="choice"){%>
+    <form action="/state" method="post">
+    <div class="main">
+        <div class="first"> <button class="spaces" type="submit" name="first" value=<%=arr[0]%>><%=arr[0]%></button></div>
+        <div class="second"> <button class="spaces" type="submit" name="second" value=<%=arr[1]%>><%=arr[1]%></button></div>
+        <div class="third"> <button class="spaces" type="submit" name="third"value=<%=arr[2]%> ><%=arr[2]%></button></div>
+        <div class="fourth"> <button class="spaces" type="submit" name="fourth"value=<%=arr[3]%> ><%=arr[3]%></button></div>
+        <div class="fifth"> <button class="spaces" type="submit" name="fifth"value=<%=arr[4]%> ><%=arr[4]%></button></div>
+        <div class="sixth"> <button class="spaces" type="submit" name="sixth"value=<%=arr[5]%> ><%=arr[5]%></button></div>
+        <div class="seventh"> <button class="spaces" type="submit" name="seventh"value=<%=arr[6]%>><%=arr[6]%></button></div>
+        <div class="eight"> <button class="spaces" type="submit" name="eight" value=<%=arr[7]%>><%=arr[7]%></button></div>
+        <div class="ninth"> <button class="spaces" type="submit" name="ninth" value=<%=arr[8]%>><%=arr[8]%></button></div>
+    </div>
+    </form>
+    <% } %>
+
+
+  </body>
+</html>
