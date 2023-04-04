@@ -12,7 +12,7 @@ mongoose.connect("mongodb+srv://avinash:avinash@memory.gl56xmf.mongodb.net/memor
     console.log('mongodb connected successfully');
 });
 
-
+let count=0;
 let classnames=["first","second","third","fourth","fifth","sixth","seventh","eight","ninth"];
 let presentvalue=0;
 let state=["choose","choose","choose","choose","choose","choose","choose","choose","choose"];
@@ -48,14 +48,14 @@ let checkSubset = (parentArray, subsetArray) => {
 }
 
 app.get('/',(req,res)=>{
-    res.render("choose");
+     return res.render("choose");
 });
 
 app.post('/player',(req,res)=>{
     res.redirect('/player');
 })
 app.get('/player',(req,res)=>{
-    res.render("players",{player:presentvalue,arr:state,result:result});
+     return res.render("players",{player:presentvalue,arr:state,result:result});
 });
 
 app.post("/choose",(req,res)=>{
@@ -65,7 +65,7 @@ app.post("/choose",(req,res)=>{
 })
 
 app.get('/choose',(req,res)=>{
-    res.render("players",{player:presentvalue,arr:state,result:result});
+     return res.render("players",{player:presentvalue,arr:state,result:result});
 });
 
 app.post("/reload",(req,res)=>{
@@ -85,7 +85,6 @@ score=[2,7,6,9,5,1,4,3,8];
 presentvalue=0;
 state=["choose","choose","choose","choose","choose","choose","choose","choose","choose"];
 result="choice"
-
 res.redirect('/player');    
 })
 app.post("/state",async (req,res)=>{
@@ -141,7 +140,7 @@ app.post("/state",async (req,res)=>{
             })
             await newgame.save();
         }
-        res.render("players",{player:presentvalue,arr:state,result:"PLAYER X WINS"});
+         return res.render("players",{player:presentvalue,arr:state,result:"PLAYER X WINS"});
         break;
         }
     }
@@ -190,7 +189,7 @@ app.post("/state",async (req,res)=>{
             })
             await newgame.save();
         }
-        res.render("players",{player:presentvalue,arr:state,result:"PLAYER O WINS"});
+         return res.render("players",{player:presentvalue,arr:state,result:"PLAYER O WINS"});
         break;
         }
     }
@@ -204,7 +203,7 @@ app.post("/state",async (req,res)=>{
         }
     }
     if(g==9){
-        res.render("players",{player:presentvalue,arr:state,result:"DRAW"});
+         return res.render("players",{player:presentvalue,arr:state,result:"DRAW"});
 
     }
     if(presentvalue == 0){
@@ -213,10 +212,148 @@ app.post("/state",async (req,res)=>{
     else{
         presentvalue=0
     }
-    res.render("players",{player:presentvalue,arr:state,result:result});
+     return res.render("players",{player:presentvalue,arr:state,result:result});
 })
 
 
+// computer section-----------------------------------------------------------------------------------------------------------------
+
+
+app.post("/comp",(req,res)=>{
+    memstates=[["choose","choose","choose","choose","choose","choose","choose","choose","choose"]];
+classnames=["first","second","third","fourth","fifth","sixth","seventh","eight","ninth"];
+score=[2,7,6,9,5,1,4,3,8];
+presentvalue=0;
+state=["choose","choose","choose","choose","choose","choose","choose","choose","choose"];
+result="choice"
+    res.redirect("/comp");
+})
+app.get("/comp",(req,res)=>{
+     return res.render("computer",{player:presentvalue,arr:state,result:result});
+});
+
+app.post("/choosec",(req,res)=>{
+    presentvalue = req.body.choice;
+    result="reload"
+    res.redirect('/choosec');
+})
+app.get('/choosec',(req,res)=>{
+     return res.render("computer",{player:presentvalue,arr:state,result:result});
+});
+
+app.post("/reloadc",(req,res)=>{
+    count=0;
+    classnames=["first","second","third","fourth","fifth","sixth","seventh","eight","ninth"];
+score=[2,7,6,9,5,1,4,3,8];
+presentvalue=0;
+state=["choose","choose","choose","choose","choose","choose","choose","choose","choose"];
+result="choice"
+memstates=[["choose","choose","choose","choose","choose","choose","choose","choose","choose"]]
+    res.redirect('/comp');
+})
+
+app.post("/restartc",(req,res)=>{
+count=0;
+memstates=[["choose","choose","choose","choose","choose","choose","choose","choose","choose"]];
+classnames=["first","second","third","fourth","fifth","sixth","seventh","eight","ninth"];
+score=[2,7,6,9,5,1,4,3,8];
+presentvalue=0;
+state=["choose","choose","choose","choose","choose","choose","choose","choose","choose"];
+result="choice"
+
+res.redirect('/comp');    
+})
+
+app.post("/statec",(req,res)=>{
+    for(var i=0;i<9;i++){
+        if(req.body[classnames[i]]!=undefined){
+            if(presentvalue == 1)
+            state[i]="X";
+            else
+            state[i]="O";
+        }
+    }                                               //updating state complete 
+    res.redirect('/statec');
+})
+
+app.get("/statec",async (req,res)=>{
+    for(var i=0;i<9;i++){
+        if(state[i]!="choose"){
+            count++;
+        }
+    }
+    console.log(count);
+
+    let solution=[]
+    if(presentvalue==1){
+    await game.find({choice:"X"},{mem:{$elemMatch:state}}).then((found)=>{
+        found=JSON.parse(JSON.stringify(found))
+        solution=found[0]
+    });
+    }
+    else{
+        await game.find({choice:"O"},{mem:{$elemMatch:state}}).then((found)=>{
+            found=JSON.parse(JSON.stringify(found))
+            solution=found[0]
+        }); 
+    }
+    if(solution==undefined){
+        console.log("should learn this state");
+        return res.render("computer",{player:presentvalue,arr:state,result:"computer is not able to calculate next move"});    //return can be executed to end the execution
+    }
+    solution=solution.mem
+    var tempstate=state;
+    tempstate=solution[count+1];
+    if(JSON.stringify(tempstate)==JSON.stringify(state)){
+        state=tempstate;
+        res.redirect('/statec');
+    }
+    else{
+        state=tempstate;
+        //  return res.render("computer",{player:presentvalue,arr:state,result:result});
+    }
+
+    var temp=[];
+    for(var i=0;i<9;i++){
+        if(state[i]=="X"){              
+            temp.push(i);
+        }
+    }
+    for(var i=0;i<7;i++){
+    if(checkSubset(temp,winningCombos[i])){
+         return res.render("computer",{player:presentvalue,arr:state,result:"PLAYER X WINS"});
+    }
+    }
+
+    temp=[];
+    for(var i=0;i<9;i++){
+        if(state[i]=="O"){              
+            temp.push(i);
+        }
+    }
+    for(var i=0;i<7;i++){
+    if(checkSubset(temp,winningCombos[i])){
+         return res.render("computer",{player:presentvalue,arr:state,result:"PLAYER O WINS"});
+    }
+    }   
+    var g=0;
+    for(var i=0;i<9;i++){
+        if(state[i]!="choose"){
+            g=g+1;
+        }
+    }
+    if(g==9){
+         return res.render("computer",{player:presentvalue,arr:state,result:"DRAW"});
+
+    }
+     return res.render("computer",{player:presentvalue,arr:state,result:result});
+})
+
+
+
+
+
+//server section-------------------------------------------------------------------------------------------------------------------------
 app.listen(3000,function(){
     console.log("listening on 3000");
 })
