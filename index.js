@@ -292,16 +292,30 @@ app.get("/statec",async (req,res)=>{
     });
     }
     else{
-        await game.find({choice:"O"},{mem:{$elemMatch:state}}).then((found)=>{
+        await game.find({choice:"O"},{mem:state}).then((found)=>{
             found=JSON.parse(JSON.stringify(found))
             solution=found[0]
-        }); 
+        });
     }
-    if(solution==undefined){
+    console.log(state);
+    console.log(solution.mem);
+    var c=0;
+    for(var i=0; i<solution.mem.length;i++){
+    if(JSON.stringify(solution.mem[i])!=JSON.stringify(state)){              // checking for the state if availaible in db
+        c++;
+    }
+    }
+    if(c==solution.mem.length){
         console.log("should learn this state");
         return res.render("computer",{player:presentvalue,arr:state,result:"computer is not able to calculate next move"});    //return can be executed to end the execution
     }
-    solution=solution.mem
+    // else{
+    //     // find or use another memory solution
+    // }
+    await game.find({_id:solution._id}).then((found)=>{
+        solution=JSON.parse(JSON.stringify(found));
+    })
+    solution=solution[0].mem
     var tempstate=state;
     tempstate=solution[count+1];
     if(JSON.stringify(tempstate)==JSON.stringify(state)){
