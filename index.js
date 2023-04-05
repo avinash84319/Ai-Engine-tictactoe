@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express=require('express');
 const app = express();
 const { default: mongoose } = require("mongoose");
@@ -8,7 +9,7 @@ app.use(bodyParser.urlencoded({ extended:true}));
 app.set('view engine','ejs');
 app.use(express.static("public"));
 
-mongoose.connect("mongodb+srv://avinash:avinash@memory.gl56xmf.mongodb.net/memory?retryWrites=true&w=majority",{useNewUrlParser:true}).then(()=>{
+mongoose.connect("mongodb+srv://avinash:"+process.env.MONGODB+"@memory.gl56xmf.mongodb.net/memory?retryWrites=true&w=majority",{useNewUrlParser:true}).then(()=>{
     console.log('mongodb connected successfully');
 });
 
@@ -211,7 +212,7 @@ app.post("/state",async (req,res)=>{
     else{
         presentvalue=0
     }
-     return res.render("players",{player:presentvalue,arr:state,result:result});
+     return res.render("players",{player:presentvalue,arr:state,result:"reload"});
 })
 
 //players section ends-----------------------------------------------------------------------------------------------------------------------------
@@ -387,6 +388,6 @@ app.get("/statec",async (req,res)=>{
 
 
 //server section-------------------------------------------------------------------------------------------------------------------------
-app.listen(3000,function(){
+app.listen(process.env.PORT||3000,function(){
     console.log("listening on 3000");
 })
