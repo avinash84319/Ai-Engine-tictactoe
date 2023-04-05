@@ -281,69 +281,7 @@ app.post("/statec",(req,res)=>{
 })
 
 app.get("/statec",async (req,res)=>{
-    count=0;
-    for(var i=0;i<9;i++){
-        if(state[i]!="choose"){
-            count++;
-        }
-    }
-    console.log("count is ",count);
-    let solution=[]
-    if(presentvalue==1){
-    await game.find({choice:"X"},{mem:{$elemMatch:state}}).then((found)=>{
-        found=JSON.parse(JSON.stringify(found))
-        console.log(found)
-        solution=found[z]
-    });
-    }
-    else{
-        await game.find({choice:"O"},{mem:state}).then((found)=>{
-            found=JSON.parse(JSON.stringify(found))
-            console.log(found);
-            solution=found[z];
-        });
-    }
-    if(solution==undefined){
-        console.log(state);
-        console.log("should learn this state");
-        return res.render("computer",{player:presentvalue,arr:state,result:"computer is not able to calculate next move"});    //return can be executed to end the execution
-    }
-    console.log("game no is",solution.gameno);
-    var c=0;
-    for(var i=0; i<solution.mem.length;i++){
-    if(JSON.stringify(solution.mem[i])!=JSON.stringify(state)){              // checking for the state if availaible in db
-        c++;
-    }
-    }
-    if(c==solution.mem.length){
-        // console.log("should learn this state");
-        // return res.render("computer",{player:presentvalue,arr:state,result:"computer is not able to calculate next move"});    //return can be executed to end the execution
-        // console.log(state);
-        console.log("redirecting again");
-        z=z+1;                             // changing game for better performance
-        return res.redirect("/statec");
-    }
-    // else{
-    //     // find or use another memory solution
-    // }
-    await game.find({_id:solution._id}).then((found)=>{
-        solution=JSON.parse(JSON.stringify(found));
-    })
-    solution=solution[0].mem
-    if(count==solution.length-1){
-        count=count-1;
-    }
-    var tempstate=state;
-    tempstate=solution[count+1];
-    if(JSON.stringify(tempstate)==JSON.stringify(state)){
-        state=tempstate;
-        res.redirect('/statec');
-    }
-    else{
-        state=tempstate;
-        //  return res.render("computer",{player:presentvalue,arr:state,result:result});
-    }
-    console.log("z is",z);
+
     var temp=[];
     for(var i=0;i<9;i++){
         if(state[i]=="X"){              
@@ -377,6 +315,71 @@ app.get("/statec",async (req,res)=>{
          return res.render("computer",{player:presentvalue,arr:state,result:"DRAW"});
 
     }
+
+
+    count=0;
+    for(var i=0;i<9;i++){
+        if(state[i]!="choose"){
+            count++;
+        }
+    }
+    // console.log("count is ",count);
+    let solution=[]
+    if(presentvalue==1){
+    await game.find({choice:"X"},{mem:{$elemMatch:state}}).then((found)=>{
+        found=JSON.parse(JSON.stringify(found))
+        // console.log(found)
+        solution=found[z]
+    });
+    }
+    else{
+        await game.find({choice:"O"},{mem:state}).then((found)=>{
+            found=JSON.parse(JSON.stringify(found))
+            // console.log(found);
+            solution=found[z];
+        });
+    }
+    if(solution==undefined){
+        // console.log(state);
+        console.log("should learn this state");
+        return res.render("computer",{player:presentvalue,arr:state,result:"computer is not able to calculate next move"});    //return can be executed to end the execution
+    }
+    // console.log("game no is",solution.gameno);
+    var c=0;
+    for(var i=0; i<solution.mem.length;i++){
+    if(JSON.stringify(solution.mem[i])!=JSON.stringify(state)){              // checking for the state if availaible in db
+        c++;
+    }
+    }
+    if(c==solution.mem.length){
+        // console.log("should learn this state");
+        // return res.render("computer",{player:presentvalue,arr:state,result:"computer is not able to calculate next move"});    //return can be executed to end the execution
+        // console.log(state);
+        console.log("changin to other game in memory...");
+        z=z+1;                             // changing game for better performance
+        return res.redirect("/statec");
+    }
+    // else{
+    //     // find or use another memory solution
+    // }
+    await game.find({_id:solution._id}).then((found)=>{
+        solution=JSON.parse(JSON.stringify(found));
+    })
+    solution=solution[0].mem
+    if(count==solution.length-1){
+        count=count-1;
+    }
+    var tempstate=state;
+    tempstate=solution[count+1];
+    if(JSON.stringify(tempstate)==JSON.stringify(state)){
+        state=tempstate;
+        res.redirect('/statec');
+    }
+    else{
+        state=tempstate;
+        //  return res.render("computer",{player:presentvalue,arr:state,result:result});
+    }
+    // console.log("z is",z);
      return res.render("computer",{player:presentvalue,arr:state,result:result});
 })
 
