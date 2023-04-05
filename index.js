@@ -12,6 +12,7 @@ mongoose.connect("mongodb+srv://avinash:avinash@memory.gl56xmf.mongodb.net/memor
     console.log('mongodb connected successfully');
 });
 
+let z=0;
 let count=0;
 let classnames=["first","second","third","fourth","fifth","sixth","seventh","eight","ninth"];
 let presentvalue=0;
@@ -216,10 +217,11 @@ app.post("/state",async (req,res)=>{
 })
 
 
-// computer section-----------------------------------------------------------------------------------------------------------------
+// computer section-------------------------------------------------------------------------------------------------------------------------------
 
 
 app.post("/comp",(req,res)=>{
+    z=0;
     memstates=[["choose","choose","choose","choose","choose","choose","choose","choose","choose"]];
 classnames=["first","second","third","fourth","fifth","sixth","seventh","eight","ninth"];
 score=[2,7,6,9,5,1,4,3,8];
@@ -242,6 +244,7 @@ app.get('/choosec',(req,res)=>{
 });
 
 app.post("/reloadc",(req,res)=>{
+    z=0;
     count=0;
     classnames=["first","second","third","fourth","fifth","sixth","seventh","eight","ninth"];
 score=[2,7,6,9,5,1,4,3,8];
@@ -253,6 +256,7 @@ memstates=[["choose","choose","choose","choose","choose","choose","choose","choo
 })
 
 app.post("/restartc",(req,res)=>{
+    z=0;
 count=0;
 memstates=[["choose","choose","choose","choose","choose","choose","choose","choose","choose"]];
 classnames=["first","second","third","fourth","fifth","sixth","seventh","eight","ninth"];
@@ -277,28 +281,34 @@ app.post("/statec",(req,res)=>{
 })
 
 app.get("/statec",async (req,res)=>{
+    count=0;
     for(var i=0;i<9;i++){
         if(state[i]!="choose"){
             count++;
         }
     }
-    console.log(count);
-
+    console.log("count is ",count);
     let solution=[]
     if(presentvalue==1){
     await game.find({choice:"X"},{mem:{$elemMatch:state}}).then((found)=>{
         found=JSON.parse(JSON.stringify(found))
-        solution=found[0]
+        console.log(found)
+        solution=found[z]
     });
     }
     else{
         await game.find({choice:"O"},{mem:state}).then((found)=>{
             found=JSON.parse(JSON.stringify(found))
-            solution=found[0]
+            console.log(found);
+            solution=found[z];
         });
     }
-    console.log(state);
-    console.log(solution.mem);
+    if(solution==undefined){
+        console.log(state);
+        console.log("should learn this state");
+        return res.render("computer",{player:presentvalue,arr:state,result:"computer is not able to calculate next move"});    //return can be executed to end the execution
+    }
+    console.log("game no is",solution.gameno);
     var c=0;
     for(var i=0; i<solution.mem.length;i++){
     if(JSON.stringify(solution.mem[i])!=JSON.stringify(state)){              // checking for the state if availaible in db
@@ -306,8 +316,12 @@ app.get("/statec",async (req,res)=>{
     }
     }
     if(c==solution.mem.length){
-        console.log("should learn this state");
-        return res.render("computer",{player:presentvalue,arr:state,result:"computer is not able to calculate next move"});    //return can be executed to end the execution
+        // console.log("should learn this state");
+        // return res.render("computer",{player:presentvalue,arr:state,result:"computer is not able to calculate next move"});    //return can be executed to end the execution
+        // console.log(state);
+        console.log("redirecting again");
+        z=z+1;                             // changing game for better performance
+        return res.redirect("/statec");
     }
     // else{
     //     // find or use another memory solution
@@ -316,6 +330,9 @@ app.get("/statec",async (req,res)=>{
         solution=JSON.parse(JSON.stringify(found));
     })
     solution=solution[0].mem
+    if(count==solution.length-1){
+        count=count-1;
+    }
     var tempstate=state;
     tempstate=solution[count+1];
     if(JSON.stringify(tempstate)==JSON.stringify(state)){
@@ -326,7 +343,7 @@ app.get("/statec",async (req,res)=>{
         state=tempstate;
         //  return res.render("computer",{player:presentvalue,arr:state,result:result});
     }
-
+    console.log("z is",z);
     var temp=[];
     for(var i=0;i<9;i++){
         if(state[i]=="X"){              
