@@ -27,7 +27,7 @@ const winningCombos = [
     [1,4,7], // middle column
     [2,5,8], // right column
     [0,4,8], // descending diagonal
-    [6,4,6] // ascending diagonal
+    [6,4,2] // ascending diagonal
   ]
 
   const scheme=mongoose.Schema({
@@ -71,7 +71,6 @@ app.get('/choose',(req,res)=>{
 
 app.post("/reload",(req,res)=>{
     classnames=["first","second","third","fourth","fifth","sixth","seventh","eight","ninth"];
-score=[2,7,6,9,5,1,4,3,8];
 presentvalue=0;
 state=["choose","choose","choose","choose","choose","choose","choose","choose","choose"];
 result="choice"
@@ -82,7 +81,6 @@ memstates=[["choose","choose","choose","choose","choose","choose","choose","choo
 app.post("/restart",(req,res)=>{
 memstates=[["choose","choose","choose","choose","choose","choose","choose","choose","choose"]];
 classnames=["first","second","third","fourth","fifth","sixth","seventh","eight","ninth"];
-score=[2,7,6,9,5,1,4,3,8];
 presentvalue=0;
 state=["choose","choose","choose","choose","choose","choose","choose","choose","choose"];
 result="choice"
@@ -101,16 +99,16 @@ app.post("/state",async (req,res)=>{
 
     var deref=[];
     for(var i=0;i<state.length;i++){
-        deref.push(state[i]);
+        deref.push(state[i]);                       //used to dereference or else all value get updated
     }
     memstates.push(deref);
     var temp=[];
     for(var i=0;i<9;i++){
-        if(state[i]=="X"){              //used to dereference or else all value get updated
+        if(state[i]=="X"){              
             temp.push(i);
         }
     }
-    for(var i=0;i<7;i++){
+    for(var i=0;i<8;i++){
         if(checkSubset(temp,winningCombos[i])){
             let damm=[];
             let damm2=[];
@@ -159,7 +157,7 @@ app.post("/state",async (req,res)=>{
             temp.push(i);
         }
     }
-    for(var i=0;i<7;i++){
+    for(var i=0;i<8;i++){
         if(checkSubset(temp,winningCombos[i])){
             let damm=[];
             let damm2=[];
@@ -216,6 +214,7 @@ app.post("/state",async (req,res)=>{
      return res.render("players",{player:presentvalue,arr:state,result:result});
 })
 
+//players section ends-----------------------------------------------------------------------------------------------------------------------------
 
 // computer section-------------------------------------------------------------------------------------------------------------------------------
 
@@ -288,7 +287,7 @@ app.get("/statec",async (req,res)=>{
             temp.push(i);
         }
     }
-    for(var i=0;i<7;i++){
+    for(var i=0;i<8;i++){
     if(checkSubset(temp,winningCombos[i])){
          return res.render("computer",{player:presentvalue,arr:state,result:"PLAYER X WINS"});
     }
@@ -300,7 +299,7 @@ app.get("/statec",async (req,res)=>{
             temp.push(i);
         }
     }
-    for(var i=0;i<7;i++){
+    for(var i=0;i<8;i++){
     if(checkSubset(temp,winningCombos[i])){
          return res.render("computer",{player:presentvalue,arr:state,result:"PLAYER O WINS"});
     }

@@ -7,26 +7,25 @@
     <link rel="stylesheet" href="css/players.css" />
   </head>
   <body>
-    <h1>THIS IS TWO PLAYERS GAME</h1>
-    <h2>you guys are helping the engine to learn adding your inteligence to it</h2>
-
+    <div class="heading">
+      <h1>TWO PLAYERS</h1>
+    </div>
     <div class="selection">
         <% if(result=="choice"){%>
-        <h2>choice :- </h2>
         <form action="/choose" method="post">
-            <button type="submit" name="choice" value="1">X</button>
-            <button type="submit" name="choice" value="0">O</button>
+          <button type="submit" name="choice" value="1" class="choose">X</button>
+          <button type="submit" name="choice" value="0" class="choose">O</button>
         </form>
         <% } %>
         <% if(result=="reload"){%>
             <form action="/reload" method="post">
-                <button type="submit" name="choice" value="1">RELOAD</button>
+                <button type="submit" name="choice" value="1" class="choose1">RELOAD</button>
             </form>
         <% } %>
         <% if(result!="choice" && result!="reload"){%>
             <h2><%=result%></h2>
             <form action="/restart" method="post">
-                <button type="submit" name="choice" value="1">RESTART</button>
+                <button type="submit" name="choice" value="1" class="choose1">RESTART</button>
             </form>
             <% } %>
     </div>

@@ -1,12 +1,20 @@
 html,body{
     margin: 0 0 0 0;
 }
+.heading{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 40px;
+}
 .selection{
     display:flex;
     justify-content: center;
     align-items:center;
 }
 .main{
+    margin:40px;
     border-color: aqua;
     height:500px;
     display:grid;
@@ -16,37 +24,46 @@ html,body{
     row-gap: 10px;
     column-gap: 10px;
 }
-.first{
-    background-color: aqua;
-}
-.second{
-    background-color: aqua;
-}
-.third{
-    background-color: aqua;
-}
-.fourth{
-    background-color: aqua;
-}
-.fifth{
-    background-color: aqua;
-}
-.sixth{
-    background-color: aqua;
-}
-.seventh{
-    background-color: aqua;
-}
-.eight{
-    background-color: aqua;
-}
-.ninth{
-    background-color: aqua;
-}
-
 .spaces{
     height:100px;
     width:100px;
+    border-radius:25%;
+    border: none;
+    background-color: bisque;
+    z-index:0;
+}
+.spaces:hover{
+    position: absolute;
+    border-style:dashed;
+    height: 120px;
+    width: 120px;
+    z-index:1;
+}
+.choose{
+    height:30px;
+    width:30px;
+    border-radius:25%;
+    border: none;
+    background-color: bisque;
+    z-index:0;
+}
+.choose1{
+    height:30px;
+    width:80px;
+    border: none;
+    background-color: bisque;
+    z-index:0;
+}
+.choose1:hover{
+    height: 40px;
+    width: 100px;
+}
+.choose:hover{
+    position: absolute;
+    border-style: groove;
+    height: 50px;
+    width: 50px;
+    z-index:1;
 }
 
 @media only screen and (max-width: 600px) {

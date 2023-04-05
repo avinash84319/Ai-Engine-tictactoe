@@ -6,13 +6,18 @@
     <link rel="stylesheet" href="css/choose.css">
 </head>
 <body>
-    <h1 class="heading">TIC_TAC_TOE</h1>
-    <h2>PLS choose in the following :-</h2>
-    <form method="post" action="/comp">
-        <button type="submit">COMPUTER</button>
-    </form>
-    <form method="post" action="/player">
-        <button type="submit">TWO PLAYERS</button>
-    </form>
+    <div class="head-cont">
+        <h1 class="heading">TIC_TAC_TOE</h1>
+    </div>
+    <div class="comp-cont">
+        <form method="post" action="/comp">
+            <button type="submit" class="comp-button"><img src="css/computer.jpg" alt="computer image" class="computer"></button>
+        </form>
+    </div>
+    <div class="play-cont">
+        <form method="post" action="/player">
+            <button type="submit" class="player-button"><img src="css/player.png" alt="two player image" class="player"></button>
+        </form>
+    </div>
 </body>
 </html>

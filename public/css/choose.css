@@ -1,3 +1,51 @@
+body{
+    margin: 0px;
+}
+.head-cont{
+    display:flex;
+    width:100%;
+    justify-content: center;
+    align-items: center;
+}
 .heading{
-    background-color: aqua;
+    color:black;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.comp-cont{
+    display:flex;
+    width:100%;
+    justify-content: center;
+    align-items: center;
+}
+.computer{
+    display:block;
+    border-radius: 25%;
+}
+.comp-button{
+    margin: 40px;
+    border-radius: 25%;
+}
+.comp-button:hover{
+    height:300px ;
+    width: 260px;
+}
+.play-cont{
+    display:flex;
+    width:100%;
+    justify-content: center;
+    align-items: center;
+}
+.player{
+    display:block;
+    border-radius: 25%;
+    height: 275px;
+    width: 229px;
+}
+.player-button{
+    margin:40px;
+    border-radius: 25%;
+}
+.player-button:hover{
+    height:300px ;
+    width: 260px;
 }
