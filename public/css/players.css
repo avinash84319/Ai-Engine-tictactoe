@@ -32,6 +32,14 @@ html,body{
     background-color: bisque;
     z-index:0;
 }
+.spaces1{
+    height:100px;
+    width:100px;
+    border-radius:25%;
+    border: none;
+    background-color: bisque;
+    z-index:0;
+}
 .spaces:hover{
     position: absolute;
     border-style:dashed;

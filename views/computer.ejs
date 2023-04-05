@@ -33,15 +33,52 @@
     <% if(result=="reload"||result=="choice"){%>
     <form action="/statec" method="post">
     <div class="main">
+        <% if(arr[0]=="choose"){%>
         <div class="first"> <button class="spaces" type="submit" name="first" value=<%=arr[0]%>><%=arr[0]%></button></div>
-        <div class="second"> <button class="spaces" type="submit" name="second" value=<%=arr[1]%>><%=arr[1]%></button></div>
-        <div class="third"> <button class="spaces" type="submit" name="third"value=<%=arr[2]%> ><%=arr[2]%></button></div>
-        <div class="fourth"> <button class="spaces" type="submit" name="fourth"value=<%=arr[3]%> ><%=arr[3]%></button></div>
-        <div class="fifth"> <button class="spaces" type="submit" name="fifth"value=<%=arr[4]%> ><%=arr[4]%></button></div>
-        <div class="sixth"> <button class="spaces" type="submit" name="sixth"value=<%=arr[5]%> ><%=arr[5]%></button></div>
-        <div class="seventh"> <button class="spaces" type="submit" name="seventh"value=<%=arr[6]%>><%=arr[6]%></button></div>
-        <div class="eight"> <button class="spaces" type="submit" name="eight" value=<%=arr[7]%>><%=arr[7]%></button></div>
-        <div class="ninth"> <button class="spaces" type="submit" name="ninth" value=<%=arr[8]%>><%=arr[8]%></button></div>
+        <% }else{%>
+        <div class="first"> <button class="spaces1" type="button" name="first" value=<%=arr[0]%>><%=arr[0]%></button></div>
+        <% } %>
+
+        <% if(arr[1]=="choose"){%>
+            <div class="second"> <button class="spaces" type="submit" name="second" value=<%=arr[1]%>><%=arr[1]%></button></div>
+        <% }else{%>
+            <div class="second"> <button class="spaces1" type="button" name="second" value=<%=arr[1]%>><%=arr[1]%></button></div>
+        <% } %>
+        <% if(arr[2]=="choose"){%>
+            <div class="third"> <button class="spaces" type="submit" name="second" value=<%=arr[1]%>><%=arr[2]%></button></div>
+        <% }else{%>
+            <div class="third"> <button class="spaces1" type="button" name="second" value=<%=arr[1]%>><%=arr[2]%></button></div>
+        <% } %>
+        <% if(arr[3]=="choose"){%>
+            <div class="fourth"> <button class="spaces" type="submit" name="fourth"value=<%=arr[3]%> ><%=arr[3]%></button></div>
+        <% }else{%>
+            <div class="fourth"> <button class="spaces1" type="button" name="fourth"value=<%=arr[3]%> ><%=arr[3]%></button></div>
+        <% } %>
+        <% if(arr[4]=="choose"){%>
+            <div class="fifth"> <button class="spaces" type="submit" name="fifth"value=<%=arr[4]%> ><%=arr[4]%></button></div>
+        <% }else{%>
+            <div class="fifth"> <button class="spaces1" type="button" name="fifth"value=<%=arr[4]%> ><%=arr[4]%></button></div>
+        <% } %>
+        <% if(arr[5]=="choose"){%>
+            <div class="sixth"> <button class="spaces" type="submit" name="sixth"value=<%=arr[5]%> ><%=arr[5]%></button></div>
+        <% }else{%>
+            <div class="sixth"> <button class="spaces1" type="button" name="sixth"value=<%=arr[5]%> ><%=arr[5]%></button></div>
+        <% } %>
+        <% if(arr[6]=="choose"){%>
+            <div class="seventh"> <button class="spaces" type="submit" name="seventh"value=<%=arr[6]%>><%=arr[6]%></button></div>
+        <% }else{%>
+            <div class="seventh"> <button class="spaces1" type="button" name="seventh"value=<%=arr[6]%>><%=arr[6]%></button></div>
+        <% } %> 
+        <% if(arr[7]=="choose"){%>
+            <div class="eight"> <button class="spaces" type="submit" name="eight" value=<%=arr[7]%>><%=arr[7]%></button></div>
+        <% }else{%>
+            <div class="eight"> <button class="spaces1" type="button" name="eight" value=<%=arr[7]%>><%=arr[7]%></button></div>
+        <% } %>
+        <% if(arr[8]=="choose"){%>
+            <div class="ninth"> <button class="spaces" type="submit" name="ninth" value=<%=arr[8]%>><%=arr[8]%></button></div>
+        <% }else{%>
+            <div class="ninth"> <button class="spaces1" type="button" name="ninth" value=<%=arr[8]%>><%=arr[8]%></button></div>
+        <% } %>
     </div>
     </form>
     <% } %>
